@@ -9,6 +9,9 @@
 - `flutter pub upgrade` Sube de versión y descarga las dependencias si tienes alguna versión del tipo `^1.0.0`
 - `flutter devices` Te lista todos dispositivos conectados
 
+### Extra:
+- `flutter pub run build_runner watch --delete-conflicting-outputs` Lanza el paquete `build_runner` para autogenerar ficheros, en nuestro boilerplate se utiliza para generar los eventos y estados, el output se especifica al principio del fichero con un `part 'output.g.dart';`
+
 ## Estructura
 - **android**: Ficheros nativos de android con Kotlin
 - **ios**: Ficheros nativos de ios con Swift
@@ -20,7 +23,3 @@
 - **test**: Todos los tests
   
 En este boilerplate no se consume ninguna API, pero recomendaría separar todas las capas en la carpeta /lib 
-
-## Tests
-En este caso utilizamos varios paquetes:
-- 
