@@ -1,66 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boilerplate/config/configuration.dart';
+import 'package:flutter_boilerplate/config/service_locator.dart';
+import 'package:flutter_boilerplate/navigation/router.dart';
+import 'package:flutter_boilerplate/pages/app.dart';
+import 'package:logging/logging.dart';
 
 void main() {
-  runApp(MyApp());
+  ServiceLocator.setup();
+  AppRouter.instance.setupRouter();
+  recordLog();
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Boilerplate',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+void recordLog() {
+  if (Configuration.isInDebugMode) {
+    Logger.root.level = Level.ALL;
+    Logger.root.onRecord.listen((rec) {
+      print('${rec.level.name}: ${rec.time}: ${rec.message}');
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
   }
 }
