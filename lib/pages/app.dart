@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/config/configuration.dart';
-import 'package:flutter_boilerplate/navigation/router.dart';
+import 'package:flutter_boilerplate/config/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {

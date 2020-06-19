@@ -5,6 +5,7 @@ import 'package:flutter_boilerplate/pages/home/home_bloc.dart';
 import 'package:flutter_boilerplate/pages/home/home_screen.dart';
 import 'package:flutter_boilerplate/pages/random/random_bloc.dart';
 import 'package:flutter_boilerplate/pages/random/random_screen.dart';
+import 'package:flutter_boilerplate/services/injector.dart';
 
 class AppRouter {
   static final AppRouter _instance = AppRouter._();
@@ -19,18 +20,18 @@ class AppRouter {
 
   Route Function(RouteSettings) get generator => router.generator;
 
-  Handler _buildHandler<B extends Bloc>(Widget screen, B bloc) {
+  Handler _buildHandler<B extends Bloc>(Widget screen) {
     return Handler(
       handlerFunc: (BuildContext context, Map<String, dynamic> params) => BlocProvider<B>(
-        create: (BuildContext context) => bloc,
         child: screen,
+        create: (context) => injector.inject<B>(),
       ),
     );
   }
 
-  Handler get _homeScreenHandler => _buildHandler(HomeScreen(), HomeBloc());
+  Handler get _homeScreenHandler => _buildHandler<HomeBloc>(HomeScreen());
 
-  Handler get _randomScreenHandler => _buildHandler(RandomScreen(), RandomBloc());
+  Handler get _randomScreenHandler => _buildHandler<RandomBloc>(RandomScreen());
 
   void setupRouter() {
     router.define(routes.home, handler: _homeScreenHandler, transitionType: TransitionType.fadeIn);

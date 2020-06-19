@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/navigation/router.dart';
+import 'package:flutter_boilerplate/config/router.dart';
 
 abstract class Navigation {
   final routes = AppRouter.instance.routes;

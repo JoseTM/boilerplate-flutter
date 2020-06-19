@@ -2,10 +2,16 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_boilerplate/pages/home/home_bloc.dart';
 import 'package:flutter_boilerplate/pages/home/home_event.dart';
 import 'package:flutter_boilerplate/pages/home/home_state.dart';
+import 'package:flutter_boilerplate/services/navigation.dart';
+import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import '../mocks/mock_services.dart';
+
 void main() {
-  Future<HomeBloc> build() async => HomeBloc();
+  Navigation navigation = MockNavigation();
+
+  Future<HomeBloc> build() async => HomeBloc(navigation);
 
   group("Home Bloc ", () {
     blocTest(
@@ -28,6 +34,14 @@ void main() {
       act: (HomeBloc bloc) async =>
           bloc.add(HomeUpdateUsernameEvent((builder) => builder.username = 'irrelevantUsername')),
       expect: [HomeLoadedState((builder) => builder.username = 'irrelevantUsername')],
+    );
+
+    blocTest(
+      "when NavigateToRandomEvent is sent, navigate to random screen",
+      build: build,
+      act: (HomeBloc bloc) async =>
+          bloc.add(NavigateToRandomEvent((builder) => builder.username = 'irrelevantUsername')),
+      verify: (bloc) async => verify(navigation.goToRandom("irrelevantUsername")).called(1),
     );
   });
 }

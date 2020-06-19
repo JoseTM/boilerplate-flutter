@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/config/configuration.dart';
-import 'package:flutter_boilerplate/config/service_locator.dart';
-import 'package:flutter_boilerplate/navigation/router.dart';
+import 'package:flutter_boilerplate/config/injections/app_injection.dart';
+import 'package:flutter_boilerplate/config/router.dart';
 import 'package:flutter_boilerplate/pages/app.dart';
+import 'package:flutter_boilerplate/services/injector.dart';
 import 'package:logging/logging.dart';
 
 void main() {
-  ServiceLocator.setup();
+  AppDI.setup(injector);
   AppRouter.instance.setupRouter();
   recordLog();
   runApp(App());

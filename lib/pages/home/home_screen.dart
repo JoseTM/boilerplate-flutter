@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/components/buttons/square_button.dart';
 import 'package:flutter_boilerplate/config/configuration.dart';
-import 'package:flutter_boilerplate/config/service_locator.dart';
-import 'package:flutter_boilerplate/navigation/navigation.dart';
 import 'package:flutter_boilerplate/pages/home/home_bloc.dart';
 import 'package:flutter_boilerplate/pages/home/home_event.dart';
 import 'package:flutter_boilerplate/pages/home/home_state.dart';
@@ -120,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildButtonNavigation(String username) {
     return SquareButton(
       text: 'Go to random screen',
-      onPressed: () => ServiceLocator.instance<Navigation>().goToRandom(username),
+      onPressed: () => bloc.add(NavigateToRandomEvent((builder) => builder..username = username)),
     );
   }
 
@@ -129,5 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
       text: 'Update username',
       onPressed: () => onSubmitUsername(textController.value.text),
     );
+  }
+
+  @override
+  void dispose() {
+    bloc?.close();
+    textController?.dispose();
+    super.dispose();
   }
 }

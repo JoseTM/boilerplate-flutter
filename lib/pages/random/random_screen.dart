@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_boilerplate/config/configuration.dart';
-import 'package:flutter_boilerplate/config/service_locator.dart';
 import 'package:flutter_boilerplate/pages/random/random_bloc.dart';
 import 'package:flutter_boilerplate/pages/random/random_event.dart';
 import 'package:flutter_boilerplate/pages/random/random_state.dart';
 
-class RandomScreen extends StatelessWidget {
+class RandomScreen extends StatefulWidget {
+  @override
+  _RandomScreenState createState() => _RandomScreenState();
+}
+
+class _RandomScreenState extends State<RandomScreen> {
+  RandomBloc bloc;
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ServiceLocator.instance<RandomBloc>(),
-      child: BlocBuilder<RandomBloc, RandomState>(builder: stateToWidget),
-    );
+    return BlocBuilder<RandomBloc, RandomState>(builder: stateToWidget);
   }
 
   Widget stateToWidget(BuildContext context, RandomState state) {
@@ -23,7 +26,8 @@ class RandomScreen extends StatelessWidget {
 
   Widget buildInitial(BuildContext context) {
     String username = ModalRoute.of(context).settings.arguments;
-    BlocProvider.of<RandomBloc>(context).add(RandomUpdateEvent((builder) => builder..username = username));
+    bloc = BlocProvider.of<RandomBloc>(context);
+    bloc.add(RandomUpdateEvent((builder) => builder..username = username));
 
     return SafeArea(
       child: Container(
@@ -56,5 +60,11 @@ class RandomScreen extends StatelessWidget {
         child: Text(username, style: TextStyle(fontSize: 28)),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    bloc?.close();
+    super.dispose();
   }
 }

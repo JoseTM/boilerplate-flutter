@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/navigation/router.dart';
+import 'package:flutter_boilerplate/config/router.dart';
 
 class Configuration {
+  Configuration._();
+
   static bool get isInDebugMode {
     bool inDebugMode = false;
     // Assert expressions are only evaluated during development. They are ignored
